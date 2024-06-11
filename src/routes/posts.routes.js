@@ -110,7 +110,9 @@ router.delete('/:id', authMiddleware, async (req, res) => {
         }
 
         // Elimina el post
-        await post.remove();
+        // Elimina el post
+await post.deleteOne();
+
 
         res.json({
             success: true,

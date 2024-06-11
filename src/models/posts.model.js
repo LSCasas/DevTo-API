@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const modelName = " Post";
 
-const schema = new mongoose.Schema({
+const user = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -35,4 +35,4 @@ const schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model(modelName, schema);
+module.exports = mongoose.model(modelName, user);
