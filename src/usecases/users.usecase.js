@@ -29,6 +29,16 @@ async function create(data) {
     }
 }
 
+async function getAll() {
+    try {
+        const users = await User.find();
+        return users;
+    } catch (error) {
+        console.error('Error fetching all users:', error);  // Registro del error para depuración.
+        throw createError(500, "Error fetching all users");
+    }
+}
+
 async function getById(id) {
     return User.findById(id);
 }
@@ -39,9 +49,11 @@ async function getByEmail(email) {
 
 module.exports = {
     create,
+    getAll,
     getById,
     getByEmail
 };
+
 
 
 

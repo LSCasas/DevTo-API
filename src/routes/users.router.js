@@ -5,6 +5,23 @@ const auth = require('../middleware/auth.middleware');
 
 const router = express.Router();
 
+// Endpoint para obtener todos los usuarios
+router.get('/', async (req, res) => {
+  try {
+    const users = await userUseCase.getAll();
+    res.json({
+      success: true,
+      data: { users },
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
+
+// Endpoint para crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
     const { name, profilePic, email, password } = req.body;
