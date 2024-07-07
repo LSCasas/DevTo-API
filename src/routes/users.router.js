@@ -65,6 +65,36 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Obtener un post por ID
+router.get('/:id', async (req, res) => {
+    try {
+        const postId = req.params.id;
+        
+        // Busca el post por su ID
+        const post = await Post.findById(postId);
+
+        // Verifica si el post existe
+        if (!post) {
+            return res.status(404).json({
+                success: false,
+                error: 'El post no se encontró'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: post
+        });
+    } catch (error) {
+        console.error('Error al obtener el post por ID:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error al obtener el post por ID'
+        });
+    }
+});
+
+
 module.exports = router;
 
 

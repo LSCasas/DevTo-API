@@ -1,6 +1,23 @@
 const createError = require("http-errors");
 const Post = require('../models/posts.model');
 
+
+// Obtener un post por ID
+async function getPostById(postId) {
+    try {
+        const post = await Post.findById(postId);
+        
+        if (!post) {
+            throw new Error('El post no se encontró');
+        }
+
+        return post;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+
 // Crear un nuevo post
 async function createPost(title, image, body, userId) {
     try {
@@ -75,11 +92,17 @@ async function deletePost(postId, userId) {
     } catch (error) {
         throw new Error(error.message);
     }
+
+
+
+    
+    
 }
 
 module.exports = {
     createPost,
     getAllPosts,
     updatePost,
-    deletePost
+    deletePost,
+    getPostById 
 };
