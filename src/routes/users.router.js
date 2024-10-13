@@ -1,9 +1,43 @@
+const AWS = require('aws-sdk');
 const express = require('express');
 const createError = require('http-errors');
 const userUseCase = require('../usecases/users.usecase');
-const auth = require('../middleware/auth.middleware');
+const auth = require('../middleware/auth.middleware'); // Si estás usando autenticación
 
 const router = express.Router();
+
+// Configura AWS S3
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+// Endpoint para generar una URL pre-firmada (presigned URL) para subir una imagen a S3
+router.post('/s3/presigned-url', async (req, res) => {
+  try {
+    const { fileName, fileType } = req.body;
+
+    // Parámetros para generar la URL pre-firmada
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME, // Nombre del bucket
+      Key: fileName,                      // Nombre del archivo en S3
+      Expires: 60,                        // Tiempo de validez de la URL (60 segundos)
+      ContentType: fileType,              // Tipo de contenido (MIME type) del archivo
+    };
+
+    // Genera la URL pre-firmada
+    const signedUrl = await s3.getSignedUrlPromise('putObject', params);
+
+    // Enviar la URL pre-firmada al frontend
+    res.json({ url: signedUrl });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Error generating presigned URL',
+    });
+  }
+});
 
 // Endpoint para obtener todos los usuarios
 router.get('/', async (req, res) => {
@@ -32,6 +66,7 @@ router.post('/', async (req, res) => {
       throw createError(400, 'El correo electrónico ya está en uso');
     }
 
+    // Crear el usuario
     const userCreated = await userUseCase.create({ name, profilePic, email, password });
     res.status(201).json({
       success: true,
@@ -65,9 +100,10 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Si deseas agregar más endpoints, puedes seguir este patrón
-
+// Exportar las rutas
 module.exports = router;
+
+
 
 
 
