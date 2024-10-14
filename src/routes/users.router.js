@@ -1,4 +1,6 @@
-const AWS = require('aws-sdk');
+const { S3Client } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const express = require('express');
 const createError = require('http-errors');
 const userUseCase = require('../usecases/users.usecase');
@@ -7,10 +9,12 @@ const auth = require('../middleware/auth.middleware'); // Si estás usando auten
 const router = express.Router();
 
 // Configura AWS S3
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+const s3 = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
 // Endpoint para generar una URL pre-firmada (presigned URL) para subir una imagen a S3
@@ -26,12 +30,16 @@ router.post('/s3/presigned-url', async (req, res) => {
       ContentType: fileType,              // Tipo de contenido (MIME type) del archivo
     };
 
+    // Comando para poner el objeto en el bucket
+    const command = new PutObjectCommand(params);
+
     // Genera la URL pre-firmada
-    const signedUrl = await s3.getSignedUrlPromise('putObject', params);
+    const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
 
     // Enviar la URL pre-firmada al frontend
     res.json({ url: signedUrl });
   } catch (error) {
+    console.error('Error generating presigned URL:', error);
     res.status(500).json({
       success: false,
       error: 'Error generating presigned URL',
@@ -102,6 +110,7 @@ router.get('/:id', async (req, res) => {
 
 // Exportar las rutas
 module.exports = router;
+
 
 
 

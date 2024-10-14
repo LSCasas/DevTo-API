@@ -1,4 +1,6 @@
-const s3 = require('./config');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const s3Client = require('./config');  // Aquí importas el cliente S3 configurado
 
 const generatePresignedUrl = async (fileName, fileType) => {
   const params = {
@@ -9,7 +11,15 @@ const generatePresignedUrl = async (fileName, fileType) => {
   };
 
   try {
-    const url = await s3.getSignedUrlPromise('putObject', params);
+    // Crear comando para el objeto
+    const command = new PutObjectCommand({
+      Bucket: params.Bucket,
+      Key: params.Key,
+      ContentType: params.ContentType,
+    });
+
+    // Generar la URL firmada
+    const url = await getSignedUrl(s3Client, command, { expiresIn: params.Expires });
     return url;
   } catch (err) {
     console.error('Error generando URL firmada:', err);
@@ -20,4 +30,5 @@ const generatePresignedUrl = async (fileName, fileType) => {
 module.exports = {
   generatePresignedUrl,
 };
+
 
