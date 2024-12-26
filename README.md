@@ -6,7 +6,7 @@ The API is oriented toward user and publication management, providing functional
 
 - **Modular Routing:** Separate route files for users, posts, and authentication.
 - **Data Models:** Structured models for users and posts.
-- **Middlewar:**Support for authentication and validation.
+- **Middleware:** Support for authentication and validation.
 - **RESTful Design:** Follows REST principles for API structure.
 - **Scalable:** Clean and maintainable architecture.
 
