@@ -1,4 +1,4 @@
-# Challenge APIv1 Generation JavaScript 33
+# DevTo replica - API
 
 The API is oriented toward user and publication management, providing functionalities with authentication, user data handling, and publication content. It also incorporates principles of clean architecture, ensuring the API is well-structured with a modular, scalable, and maintainable approach.
 
