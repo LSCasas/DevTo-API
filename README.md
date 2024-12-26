@@ -57,3 +57,13 @@ To get started with the project, follow these steps:
     ```bash
     npm start
     ```
+
+    ## Learn More
+
+To learn more about Express, Mongoose, and using environment variables, check out the following resources:
+
+- [Express Documentation](https://expressjs.com) - Learn about Express.js features.
+- [Mongoose Documentation](https://mongoosejs.com) - Learn about Mongoose and MongoDB integration.
+- [Dotenv Documentation](https://www.npmjs.com/package/dotenv) - Learn about managing environment variables in Node.js.
+
+Your feedback and contributions to this project are welcome!
