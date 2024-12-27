@@ -16,8 +16,8 @@ To get started with the project, follow these steps:
 
 1. Clone this repository to your Linux console:
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git git@github.com:LSCasas/DevTo-API.git
+   cd DevTo-API
 
 
 2. Install dependencies:
