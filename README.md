@@ -1,14 +1,14 @@
 # DevTo replica - API
 
-This API manages users, teams, technical reports, customer support, and subscriptions. It integrates authentication (OAuth2, JWT), payments with Stripe, file handling in AWS S3, and email notifications. Designed for technical support and maintenance systems, it offers task assignment, ticket tracking, and automated management of subscriptions and payments.
+The API is oriented toward user and publication management, providing functionalities with authentication, user data handling, and publication content. It also incorporates principles of clean architecture, ensuring the API is well-structured with a modular, scalable, and maintainable approach.
 
 ## Features
 
-- **Maintenance Management:** Tracks equipment, reports, user profiles, and support requests for maintenance.
-- **Secure Authentication:** Uses JWT, OAuth2, and bcryptjs for secure login and password management.
-- **Cloud Integration:** Integrates AWS S3 for file handling and Stripe for payments and subscriptions.
-- **Scalable Data Models:** Uses Mongoose for flexible schemas, including equipment, reports, and users.
-- **Email Automation:** Automates notifications and communications with Nodemailer.
+- **Modular Routing:** Separate route files for users, posts, and authentication.
+- **Data Models:** Structured models for users and posts.
+- **Middleware:** Support for authentication and validation.
+- **RESTful Design:** Follows REST principles for API structure.
+- **Scalable:** Clean and maintainable architecture.
 
 ## Getting Started
 
