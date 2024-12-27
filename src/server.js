@@ -19,7 +19,7 @@ app.use('/api/s3', s3Router);  // Registra las rutas de S3
 // Ruta de prueba para verificar que el servidor funciona
 app.get('/', (req, res) => {
     res.json({
-        message: "Koders APIv1"
+        message: "DevTo APIv1"
     });
 });
 
